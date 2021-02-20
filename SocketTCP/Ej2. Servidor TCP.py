@@ -1,4 +1,5 @@
 ##' Ejercicio 2: Servidor TCP
+#En algunos casos, al reiniciar la consola el programa da error, vovler a ejecutar y se soluciona
 #Opciones de comando: 5000
 #En moba funciona con localhost y con 127.0.0.1
 #Con d[0] y d[1] se expresa correctamente el print de la linea 31

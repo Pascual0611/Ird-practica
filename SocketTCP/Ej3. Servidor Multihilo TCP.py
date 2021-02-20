@@ -1,4 +1,7 @@
 #Eje3. Multihilo
+#En algunos casos, al reiniciar la consola el programa da error, vovler a ejecutar y se soluciona
+#Opciones de comando: 5000
+#Problema, en el print del la linea 31 se dan los datos de forma anomala, se soluciona con d[0] y d[1]
 import sys
 import socket
 import threading
@@ -30,9 +33,8 @@ def main():
                 # Enviamos el mensaje
                 x.send(mensaje)
                 x.close()
-            sc, direccion = socketServidor.accept()
-            x = 0
-            threading.Thread(target=multiples,args=(x)).start() #Da problemas el threading
+            sc, d = socketServidor.accept()
+            threading.Thread(target=multiples,args=(sc, d)).start() #Da problemas el threading
     except socket.timeout:
         print("{} segundos sin recibir nada.".format(timeout))
     except:
