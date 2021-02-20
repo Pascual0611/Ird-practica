@@ -8,7 +8,21 @@ def main():
         sys.exit()
     try:
         #Instruciones sockets
-        pass
+        # Leemos los argumentos necesarios
+        maquina = sys.argv[1]
+        puerto = int(sys.argv[2])
+        mensaje = sys.argv[3]
+        # Creamos el socket no orientado a conexion
+        socketCliente = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        # Establecemos un timeout de 300 segs
+        timeout = 300
+        socketCliente.settimeout(timeout)
+        print("CLIENTE: Enviando {} a {}:{}".format(mensaje,maquina,puerto))
+        # Enviamos el mensaje a la maquina y puerto indicados
+        socketCliente.sendto(mensaje.encode('UTF-8'),(maquina, puerto))
+        # Recibimos el mensaje de respuesta
+        mensajeEco, a = socketCliente.recvfrom(len(mensaje))
+        print("CLIENTE: Recibido {} de {}:{}".format(mensajeEco.decode('UTF-8'),a[0],a[1]))
     except socket.timeout:
         #Captura excepcion si el tiempo de espera  se agota.
         print("{} segundos sin recibir nada.".format(timeout))
@@ -20,21 +34,5 @@ def main():
         # En cualquier caso cierra el socket.
         socketCliente.close()
 
-
-# Leemos los argumentos necesarios
-maquina = sys.argv[1]
-puerto = int(sys.argv[2])
-mensaje = sys.argv[3]
-# Creamos el socket no orientado a conexion
-socketCliente = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-# Establecemos un timeout de 300 segs
-timeout = 300
-socketCliente.settimeout(timeout)
-print("CLIENTE: Enviando {} a {}:{}".format(mensaje,maquina,puerto))
-# Enviamos el mensaje a la maquina y puerto indicados
-socketCliente.sendto(mensaje.encode('UTF-8'),(maquina, puerto))
-print("CLIENTE: Recibido {} de {}:{}".format(mensaje.decode('UTF-8'),maquina,puerto))
-# Recibimos el mensaje de respuesta
-mensajeEco, a = socketCliente.recvfrom(len(mensaje))
 if __name__ == "__main__":
     main()
