@@ -22,6 +22,7 @@ def main():
         socketCliente.sendto(mensaje.encode('UTF-8'),(maquina, puerto))
         # Recibimos el mensaje de respuesta
         mensajeEco, a = socketCliente.recvfrom(len(mensaje))
+        print(len(mensaje),','+str(mensajeEco)+','+str(a))
         print("CLIENTE: Recibido {} de {}:{}".format(mensajeEco.decode('UTF-8'),a[0],a[1]))
     except socket.timeout:
         #Captura excepcion si el tiempo de espera  se agota.

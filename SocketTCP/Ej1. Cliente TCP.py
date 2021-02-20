@@ -1,4 +1,7 @@
 #Ejercicio 1: Cliente TCP
+#Opciones de comando: 127.0.0.1 5000 "Funciona" o localhost 5000 "Funciona"
+#En moba no funciona con localhost, solo con 127.0.0.1
+#Problema: la dirección del servidor en el reducido no aparece de forma normal, con puerto y maquina se expresaria bien
 import sys
 import socket
 
@@ -20,10 +23,10 @@ def main():
         #Crear conexión
         socketCliente.connect((maquina, puerto))
         #Envio
-        socketCliente.send(maquina, puerto)
+        socketCliente.send(mensaje.encode('UTF-8'))
         #Recibir
-        mensajeEco, a = socketCliente.recv(len(mensaje))
-        print("CLIENTE: Recibido {} de {}:{}".format(a[0],a[1]))
+        mensajeEco, a = socketCliente.recvfrom(len(mensaje))
+        print("CLIENTE: Recibido {} de {}:{}".format(mensajeEco.decode('UTF-8'), a[0],a[1]))
     except socket.timeout:
         #Captura excepcion si el tiempo de espera  se agota.
         print("{} segundos sin recibir nada.".format(timeout))

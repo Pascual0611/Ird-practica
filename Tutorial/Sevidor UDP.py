@@ -22,8 +22,6 @@ def main():
             # Recibimos el mensaje
             mensaje, direccion = socketServidor.recvfrom(4096)
             print("Recibido mensaje: {} de: {}:{}".format(mensaje.decode('UTF-8'),direccion[0],direccion[1]))
-            # Enviamos el mensaje
-            socketServidor.sendto(mensaje, direccion)
     except socket.timeout:
         print("{} segundos sin recibir nada.".format(timeout))
     except:

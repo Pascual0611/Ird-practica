@@ -1,13 +1,14 @@
 #Eje3. Multihilo
 import sys
 import socket
+import threading
 
 def main():
     if len(sys.argv) !=2:
         print("Formato ServidorUDP <puerto>")
         sys.exit()
     try:
-         # Leemos los argumentos necesarios
+        # Leemos los argumentos necesarios
         puerto = int(sys.argv[1])
         # Creamos el socket no orientado a conexon
         socketServidor = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -20,15 +21,22 @@ def main():
         #Modo Listen
         socketServidor.listen()
         while True:
-            Cliente = socketServidor.accept() 
-            # Recibimos el mensaje
-            mensaje, direccion = socketServidor.recv() #Len de Cliente?
-            print("Recibido mensaje: {} de: {}:{}".format(direccion[0],direccion[1]))
-            # Enviamos el mensaje
-            socketServidor.send(mensaje, direccion)
+            def multiples(x, b):
+                # Recibimos el mensaje
+                mensaje, direccion = x.recvfrom(4096) #Len de Cliente?
+                a1 = direccion[0]
+                a2 = direccion[1]
+                print("Recibido mensaje: {} de: {}:{}".format(mensaje.decode('UTF-8'), a1, a2))
+                # Enviamos el mensaje
+                x.send(mensaje)
+                x.close()
+            sc, direccion = socketServidor.accept()
+            x = 0
+            threading.Thread(target=multiples,args=(x)).start() #Da problemas el threading
     except socket.timeout:
         print("{} segundos sin recibir nada.".format(timeout))
     except:
+        print(1)
         print("Error: {}".format(sys.exc_info()[0]))
         raise
     finally:
@@ -36,5 +44,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-#threading.Thread(target=(funcion),args=(argumentos)).start()
