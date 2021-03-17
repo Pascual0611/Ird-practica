@@ -55,7 +55,7 @@ def main():
                             contenido = f.read()
                     elif archivo.endswith('.html'):
                         clase = 'text/html'
-                        with open (archivo, 'r') as f:
+                        with open (archivo, encoding = 'utf-8') as f:
                             contenido = f.read()
                     elif archivo.endswith('.jpg'):
                         clase = 'image/jpeg'
@@ -71,20 +71,25 @@ def main():
                     mod = datetime.fromtimestamp(
                         os.path.getmtime(archivo)).strftime("%a, %d %b %Y %H:%M:%S %Z")
                     clave = '200 Ok'
-                except (FileNotFoundError):
+                except (FileNotFoundError, OSError):
                     clave = '404 NOT FOUND'
                 except(PermissionError, IndexError, ZeroDivisionError):
                     clave = '400 BAD REQUEST'
                 finally:
-                    fecha = datetime.now()
+                    fecha = (datetime.now()).strftime("%a, %d %b %Y %H:%M:%S %Z")
                     respuesta = ('{} {} \n'.format(version, clave))
                     x.send(respuesta.encode('UTF-8'))
                     if clave == '200 Ok':
-                        cabecera = ('Date {}\nServer localhost:5000\n').format(fecha)
-                        cabecera = cabecera + ('Content-Length {}\n').format(tamano)
-                        cabecera = cabecera + ('Content-Type {}\n').format(clase)
-                        cabecera = cabecera + ('Last-Modified {}\n\n').format(mod)
-                        x.send(cabecera.encode('UTF-8'))
+                        server = ('Server: Nombre\n')
+                        x.send(server.encode('UTF-8'))
+                        date = ('Date: {}\n').format(fecha)
+                        x.send(date.encode('UTF-8'))
+                        cambio = ('Last-Modified: {}\n').format(mod)
+                        x.send(cambio.encode('UTF-8'))
+                        size = ('Content-Length: {}\n').format(tamano)
+                        x.send(size.encode('UTF-8'))
+                        tipo = ('Content-Type: {}\n\n').format(clase)
+                        x.send(tipo.encode('UTF-8'))
                         if metodo in ['GET']:
                             try:
                                 if clase in ['text/plain', 'text/html']:
