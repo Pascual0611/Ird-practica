@@ -2,6 +2,7 @@
 import gmg
 import requests
 import bs4
+import time
 import lxml
 
 ayuntamiento = []
@@ -70,7 +71,7 @@ def Locate (x):
     #Iterador 3
     total = []
     code = requests.get('https://eu1.locationiq.com/v1/search.php?key=pk.b6a238bbe6098eb42bad4fc149b84e25&q={}&format=xml'.format(x))
-    tabla = bs4.BeautifulSoup(code.content, 'xml')
+    tabla = bs4.BeautifulSoup(code.content, 'lxml')
     prueba = (tabla.prettify()).split('<place')
     prueba = prueba[1:]
     for i in range(len(prueba)):
@@ -111,7 +112,7 @@ conj = dict()
 for i in ayuntamiento:
     temp = Locate(i)
     conj[i] = temp
-
+    time.sleep(1)
 
 #Iterador 4
 #Orden de la funcion gmg: Codigo cielo, longitud y latitud
