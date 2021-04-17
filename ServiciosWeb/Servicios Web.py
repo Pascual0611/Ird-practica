@@ -1,4 +1,4 @@
-#Servicios Web
+#Servicios Web, Version original
 import gmg
 import requests
 import bs4
@@ -8,7 +8,7 @@ import lxml
 ayuntamiento = []
 n = int(input('Numero de Ayuntamientos: '))
 for i in range(n):
-    temp = str(input('Ayuntamiento nº{}:'.format(str(i+1))))
+    temp = str(input('Ayuntamiento nº{}: '.format(str(i+1))))
     ayuntamiento.append(temp)
 print('')
 
