@@ -1,0 +1,5 @@
+Version usando bs4:
+python 'ServiciosWeb, pruebas de cambios.py'
+
+Version usando splits:
+python 'Servicios Web.py'
